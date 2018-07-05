@@ -42,6 +42,9 @@ function print_usage() {
   echo "commands, you can skip this script."
 }
 
+SRC_FILE="SRC_FILE"
+BUCKET_ID="BUCKET_ID"
+
 if [ $# = 0 ]; then
   print_usage
   exit
@@ -81,13 +84,13 @@ delete)  # delete [<clusterName>]
 start)  # start [<clusterName>]
 
   CLUSTER="${2:-$DEFAULT_CLUSTER}"
-  gsutil cp -r ~/workfile.text gs://micbuck1
+  gsutil cp -r ~/SRC_FILE gs://$BUCKET_ID
 
   TARGET="WordCount1-$(date +%s)"
   gcloud dataproc jobs submit hadoop --cluster "$CLUSTER" \
     --jar target/wordcount-mapreduce-0-SNAPSHOT-jar-with-dependencies.jar \
     -- wordcount-hbase \
-    gs://micbuck1/workfile.text \
+    gs://$BUCKET_ID/workfile.text \
     "${TARGET}"
     echo "Output table is: ${TARGET}"
   ;;
