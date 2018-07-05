@@ -1,0 +1,8 @@
+requests
+argparse
+tweepy
+nltk
+pymongo
+datetime
+sshtunnel
+ 
