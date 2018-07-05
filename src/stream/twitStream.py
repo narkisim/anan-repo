@@ -15,7 +15,7 @@ ACCESS_TOKEN = 'ACCESS_TOKEN'
 ACCESS_TOKEN_SECRET = 'ACCESS_TOKEN_SECRET'
 
 
-uri = "mongodb://<USER>:<PASSWORD>@ds163855.mlab.com:63855/test_db"
+uri = "MONGODB ADDRESS:PORT"
 MONGO_TWITS_DB = 'twits'
 
 # define the listener callback function
