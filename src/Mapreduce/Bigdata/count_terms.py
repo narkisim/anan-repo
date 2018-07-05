@@ -9,6 +9,7 @@ stop_words = set(stopwords.words('english'))
 bucket_id = ['MY_BUCKET']
 project_id = 'PROJECT_ID'
 instance_id = 'INSTANCE_ID'
+N = 10
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', '--table', nargs='+', default = bucket_id)
@@ -37,5 +38,6 @@ for key, value in table.scan():
 resFilter = [x for x in words if x[0].lower() not in stop_words]
 # sort the list by the words count
 resSort = sorted(resFilter, key=lambda x: x[1], reverse=True)
-print(resSort[:10])
+# print the N topmost entries
+print(resSort[:N])
 
