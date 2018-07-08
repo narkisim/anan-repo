@@ -1,7 +1,8 @@
 #!/bin/bash
 
 rm -rf $(pwd)/wordcount/output
-
+# copy files from bucket
+gsutil cp gs://MY_BUCKET/*.txt ~/wordcount/input
 # declare the location array
 cities=("nyc" "boston" "miami" "austin")
 
