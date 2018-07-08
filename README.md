@@ -53,7 +53,8 @@ The project has three main components:
 ```
 	bigdata.sh
 ```
-	- Collect and prompt the data using the Python script: count_terms.py. Set the local variables bucket_id, project_id, instance_id fisrt!!!!
+	- Collect and prompt the data using the Python script: count_terms.py. 
+	Set the local variables bucket_id, project_id, instance_id fisrt!!!!
 ```
 	count_terms.py
 ```
@@ -81,7 +82,7 @@ Comparing MapReduce vs. MongoDB pipelining based on the knowledge we gained in t
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+Only master brench is supported. 
 
 ## Authors
 
