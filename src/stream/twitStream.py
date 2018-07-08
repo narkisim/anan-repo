@@ -149,4 +149,4 @@ if __name__ == '__main__':
     api = tweepy.API(auth)
     sapi = tweepy.streaming.Stream(auth, listener, tweet_mode='extended')
     # set the filter by locations term and limited to English
-    sapi.filter(locations=[slng, slat, nlat, nlat], track=[term], languages=["en"])
+    sapi.filter(locations=[slng, slat, nlng, nlat], track=[term], languages=["en"])
