@@ -1,6 +1,41 @@
 # anan-repo
 
-The project summarizes the mid term and final course assignments 
+The project summarizes the mid term and final course assignments.
+## Mid term task - batch processing:
+In the mid term task we used standard batch process to retrieve twits from Tweeter via REST API. 
+A Python script using the python-tweeter package enables fetching REST request for user defined cities, and term. The code lookup the city coordinate in GoogleMaps and 
+generates tweet lookup filter. Based on the reply status, the scripts stores the stores the tweets in a local file and in Google bucket for further MapReduce processing.
+We processed MapReduce as a service via Google bigdata service, or using local VM using Hadoop. Enabling term and stop word filtering, we updated the Hadoop WordCount.java (in-line in the code) 
+At the end of the data processing we got an ordered visited words list.
+
+### Statistics
+1. The average daily number of tweets filtered by city and term: 20 tweets per day.
+2. Hadoop processing time for ~ 10000 words: 30 seconds.     
+
+Lookup cities: Colombus, Detroit, Memphis, Milwaukee, NYC.
+Lookup term: "ball"
+
+The mid term task code is listed in the src/mapreduce. The code is well explained in-line.
+
+## Final task - stream processing:
+In the final project task we were requested to use Tweeter stream API, and process the data using NoSQL server (MongoDB).
+A Python script using the tweepy package enables fetching stream REST request for user defined cities, and term. The code lookup the city coordinate in GoogleMaps and 
+generates tweet lookup filter. Based on the reply status, the scripts posts MongoDB update message using the following JSON message:
+		{ "city": "city",       <- the user requested city 
+		  "term": "term",       <- the requested term 
+		  "word": "word"        <- single word listed in the tweet 
+		  "date": "datetime"    <- current date and time 
+		}
+Enabling parallel stream processing we created docker in a local VM, and started several instances in parallel. Note that Tweeter stream API limits user to 2 streams in parallel.
+Instead of using standalone MongoDB process in a VM or as a service in Google cloud, we used the free mLab service (https://mlab.com) hosted by Google. 
+### Statistics
+1. The average number tweets per second filtered by city and term: 2 tweets per second.
+2. MongoDB processing time for ~ 100000 words: 15 seconds.     
+Lookup cities: Colombus, Detroit, Memphis, Milwaukee, NYC.
+Lookup term: "ball"
+
+The final task code is listed in the src/stream. The code is well explained in-line.
+
 
 ## Getting Started
 
@@ -54,7 +89,7 @@ The project has three main components:
 	bigdata.sh
 ```
 	- Collect and prompt the data using the Python script: count_terms.py. 
-	Set the local variables bucket_id, project_id, instance_id fisrt!!!!
+	Set the local variables bucket_id, project_id, instance_id first!!!!
 ```
 	count_terms.py
 ```
@@ -74,15 +109,15 @@ Comparing MapReduce vs. MongoDB pipelining based on the knowledge we gained in t
 1.	Evaluating the overall data collected process by both approaches, we were able to collect few tenth Twit records per city/per day using the standard Tweeter REST API and MapReduce, and up to 100 records/sec using streams.
 2.	MongoDB aggregation pipeline is using indexes and internal NoSQL optimizations between the aggregation steps which are not possible with MapReduce.
 3.	MongoDB aggregation is more secure when the operation is triggered by user input.
-4.	MapReduce supports distributed computational framework, with a distributed file system (HDFS) underneath for persistence.  It's often used for data processing, ETL, data science, and business intelligence problems. 
-5.	MapReduce usually behaves better when it is required to work with large dataset. 
+4.	MapReduce supports distributed computational framework, with a distributed file system underneath for persistence. It's often used for data processing, data science, and business intelligence problems. 
+5.	MapReduce usually behaves better when it is required to work with large dataset. NoSQL servers performance are DB size dependent. 
 6.	MonoDB saves user defined data structure, which enables storing additional information for statistical processing. MongoDB query language supports a wide variety of queries that are much more flexible comparing MapReduce tools, which requires Java coding for specific querying.     
-7.	MongoDB map/reduce is it is very easy to implement comparing to MapReduce tools that requires specific system and resource configuration.
-
+7.	MongoDB map/reduce is it very easy to implement comparing to MapReduce tools that requires specific system and resource configuration.
+8.  We tested the Hadoop and Google BigData MapReduce applications. Both tools were written in Java, and any update required Java programming knowledge, and a wide scope of the system. MongoDB on the other hand supports flexible REST API interfaces, and a programmer can use any available tool to perform similar tasks.  
 
 ## Versioning
 
-Only master brench is supported. 
+Only master branch is supported. 
 
 ## Authors
 
@@ -92,6 +127,6 @@ Only master brench is supported.
 
 This project is licensed under the License of each public module. Propriety code is licensed free.
 
-## Acknowledgments
+## Acknowledgements
 
 * Anyone whose code was used
