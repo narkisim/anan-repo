@@ -113,7 +113,10 @@ Comparing MapReduce vs. MongoDB pipelining based on the knowledge we gained in t
 5.	MapReduce usually behaves better when it is required to work with large dataset. NoSQL servers performance are DB size dependent. 
 6.	MonoDB saves user defined data structure, which enables storing additional information for statistical processing. MongoDB query language supports a wide variety of queries that are much more flexible comparing MapReduce tools, which requires Java coding for specific querying.     
 7.	MongoDB map/reduce is it very easy to implement comparing to MapReduce tools that requires specific system and resource configuration.
-8.  We tested the Hadoop and Google BigData MapReduce applications. Both tools were written in Java, and any update required Java programming knowledge, and a wide scope of the system. MongoDB on the other hand supports flexible REST API interfaces, and a programmer can use any available tool to perform similar tasks.  
+8.  We tested the Hadoop and Google BigData MapReduce applications. Both tools were written in Java, and any update required Java programming knowledge, and a wide scope of the system. MongoDB on the other hand supports flexible REST API interfaces, and a programmer can use any available tool to perform similar tasks. Therefore MongoDB is a more robust solution
+9.  MongoDB is better at handling real-time data analytics. MapReduce on the other hand, excels at batch processing and long-running ETL jobs and analysis.
+10. MapReduce handles data disk failure by design, MongoDB has no internal disaster recovery mechanism.
+11. MapReduce systems like Hadoop determines how best to distribute work across resources in the cluster, and how to deal with potential failures in system components should they arise. MongoDB consumes resources based on the requirements. 
 
 ## Versioning
 
