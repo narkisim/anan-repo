@@ -8,10 +8,6 @@ generates tweet lookup filter. Based on the reply status, the scripts stores the
 We processed MapReduce as a service via Google bigdata service, or using local VM using Hadoop. Enabling term and stop word filtering, we updated the Hadoop WordCount.java (in-line in the code) 
 At the end of the data processing we got an ordered visited words list.
 
-### Statistics
-1. The average daily number of tweets filtered by city and term: 20 tweets per day.
-2. Hadoop processing time for ~ 10000 words: 30 seconds.     
-
 Lookup cities: Colombus, Detroit, Memphis, Milwaukee, NYC.
 Lookup term: "ball"
 
@@ -28,9 +24,7 @@ generates tweet lookup filter. Based on the reply status, the scripts posts Mong
 		}
 Enabling parallel stream processing we created docker in a local VM, and started several instances in parallel. Note that Tweeter stream API limits user to 2 streams in parallel.
 Instead of using standalone MongoDB process in a VM or as a service in Google cloud, we used the free mLab service (https://mlab.com) hosted by Google. 
-### Statistics
-1. The average number tweets per second filtered by city and term: 2 tweets per second.
-2. MongoDB processing time for ~ 100000 words: 15 seconds.     
+
 Lookup cities: Colombus, Detroit, Memphis, Milwaukee, NYC.
 Lookup term: "ball"
 
@@ -59,7 +53,9 @@ The project has three main components:
 	- Download the project and replace the wordcount.java listed in this repository.
 	- Build the Java project 
 ```
-	mvn clean install
+	./build.sh
+	or 
+		mvn clean install
 ```
 
 ## Running the project
@@ -73,11 +69,26 @@ The project has three main components:
 	- Run the Java project 
 ```
 	gsutil cp gs://my-bucke [in_file]
-	mvn exec:java -Dexec.mainClass=com.igalia.wordcount.App [in_file] [out_file] [term]
+	./run.sh
 ```
 	- Check the results
+		For all the cities:
 ```
 	check.sh
+```
+		For a single city:
+```
+	scheck.sh
+```		
+		
+	Sample output:
+		Lookup results: nyc
+		get     9
+		time    6
+		play    6
+		&amp   6
+		really  5	
+	
 ```
 2. Google Bigdata:
 	- Run the Python script collectTwits.py
@@ -104,6 +115,19 @@ The project has three main components:
 	sudo docker run -t twit -l nyc -t Trump
 ```
 
+	- Aggregate the results:
+```
+	python aggr.py
+	
+	Sample output:
+		Total word count for the city:  Milwaukee
+		Word: RT count: 1768
+		Word: Dragon count: 547
+		Word: voice count: 371
+		Word: Spongebob count: 370
+```
+
+
 ## MapReduce vs. mongo DB
 Comparing MapReduce vs. MongoDB pipelining based on the knowledge we gained in this work:
 1.	Evaluating the overall data collected process by both approaches, we were able to collect few tenth Twit records per city/per day using the standard Tweeter REST API and MapReduce, and up to 100 records/sec using streams.
@@ -118,25 +142,58 @@ Comparing MapReduce vs. MongoDB pipelining based on the knowledge we gained in t
 10. MapReduce handles data disk failure by design, MongoDB has no internal disaster recovery mechanism.
 11. MapReduce systems like Hadoop determines how best to distribute work across resources in the cluster, and how to deal with potential failures in system components should they arise. MongoDB consumes resources based on the requirements. 
 12. Most visited word counts comparison
-
-	|MapReduce words|MongoDB words|
-	| ------------- | ------------- |
-	|Nyc             		|
-	| ------------- | ------------- |
-	|get     9      | RT 8922	|
-	|time    6      | like 1171	|
-	|play    6      | &amp 1061	|
-	|&amp   6       | Dragon 1023	|
-	|really  5      | way 949	|
-	| ------------- | ------------- |
-	|milwaukee        		|
-	| ------------- | ------------- |
-	|get     9      | RT 1768	|
-	|play    10     | Dragon 547	|
-	|play    6      | voice 371	|
-	|run     6      | Spongebob 370	|
-	|fun     4      | Z.....but 370	|
 	
+	|MapReduce      |MongoDB stream |
+	| ------------- | ------------- |
+	|Nyc                       	|
+	|get       9    | RT       8922	|
+	|time      6    | like     1171	|
+	|play      6    | &amp     1061	|
+	|&amp      6    | Dragon   1023	|
+	|really    5    | way       949	|
+	|milwaukee                      |
+	|get       9    | RT       1768	|
+	|would    10    | Dragon    547	|
+	|play      6    | voice     371	|
+	|run       6    | Spongebob 370	|
+	|fun       4    | but       370	|
+	| ------------- | ------------- |
+	|Memphis                        |
+	|play     19    | RT       3403	|
+	|time     17    | Dragon    970	|
+	|get      16    | Imagine   674	|
+	|like     15    | voice     672	|
+	|really   14    | overs     672	|
+	| ------------- | ------------- |
+	|Detroit                        |
+	|get      10    | RT        496 |
+	|play      8    | virenderse 80 |
+	|one       8    | many       75 |
+	|like      8    | ImRo45     75 |
+	|Im        8    | England    73 |
+	| ------------- | ------------- |
+	|Colombus        		|
+	|like     26    | RT        753 |
+	|play     19    | like      107	|
+	|team     17    | &amp       74	|
+	|one      17    | black      68	|
+	|Im       16    | kodak      68	|
+	
+	Main Findings:
+	1. Only the work 'like appears in both methods.
+	2. 'RT' presents at all MongoDB, and 'play' in all MapReduce. 
+	3. As expected stream flow generated much more hits.
+	4. In mapReduce many high hits words appears in multiple cities. I MongoDB the high hits words are unique to a city.
+	
+13. Statistics
+	MapReduce:
+	1. The average daily number of tweets filtered by city and term: 20 tweets per day.
+	2. Hadoop/Cloud processing time for ~ 10000 words: 12 seconds.     
+
+	MongoDB streaming
+	1. The average number tweets per second filtered by city and term: 2 tweets per second.
+	2. MongoDB processing time for ~ 100000 words: ~10 seconds.     
+
 
 ## Versioning
 
