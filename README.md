@@ -204,11 +204,14 @@ Comparing MapReduce vs. MongoDB pipelining based on the knowledge we gained in t
 		New code: private final String SEARCH_TOKEN =  "WorldCup";
 		
 	2. In the python file we removed the location from the filter:
-		twits = api.GetSearch(lang='en', count=COUNT, until=msg_days_before)
-	Note: we didn't collect the tweets again 
+		twits = api.GetSearch(lang='en', count=COUNT, until=msg_days_before) 
 	3. Update the check.sh: 
 		Original: /usr/local/hadoop/bin/hadoop fs -cat wordcount/output/$i/* | sort -n -k2 -r | head -n5
 		New code: /usr/local/hadoop/bin/hadoop fs -cat wordcount/output/$i/* | sort -n -k2 -r | head -n7
+		
+	Notes: 
+	1. We didn't collect the tweets again.
+	2. In the exam we didn't update the bigdata code and limited it to Hadoop
  1. MongoDb stream updates: 
 	1. The python stream collection file: remove the locations from the filter and run it once: 
 		Original: sapi.filter(track=term, languages=["en"], )
