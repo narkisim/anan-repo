@@ -120,21 +120,11 @@ Comparing MapReduce vs. MongoDB pipelining based on the knowledge we gained in t
 12. Most visited word counts comparison
 	|MapReduce words|MongoDB words|
 	| ------------- | ------------- |
-	|Nyc            		|
-	| ------------- | ------------- |
 	|get     9      | RT 8922	|
 	|time    6      | like 1171	|
 	|play    6      | &amp 1061	|
 	|&amp   6       | Dragon 1023	|
 	|really  5      | way 949	|
-	| ------------- | ------------- |
-	|milwaukee        		|
-	| ------------- | ------------- |
-	|get     9      | RT 1768	|
-	|play    10     | Dragon 547	|
-	|play    6      | voice 371	|
-	|run     6      | Spongebob 370	|
-	|fun     4      | Z.....but 370	|
 	| ------------- | ------------- |
 
 
