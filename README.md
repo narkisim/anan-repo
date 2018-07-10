@@ -117,6 +117,26 @@ Comparing MapReduce vs. MongoDB pipelining based on the knowledge we gained in t
 9.  MongoDB is better at handling real-time data analytics. MapReduce on the other hand, excels at batch processing and long-running ETL jobs and analysis.
 10. MapReduce handles data disk failure by design, MongoDB has no internal disaster recovery mechanism.
 11. MapReduce systems like Hadoop determines how best to distribute work across resources in the cluster, and how to deal with potential failures in system components should they arise. MongoDB consumes resources based on the requirements. 
+12. Most visited word counts comparison
+	|MapReduce words|MongoDB words|
+	| ------------- | ------------- |
+	|Nyc            		|
+	| ------------- | ------------- |
+	|get     9      | RT 8922	|
+	|time    6      | like 1171	|
+	|play    6      | &amp 1061	|
+	|&amp   6       | Dragon 1023	|
+	|really  5      | way 949	|
+	| ------------- | ------------- |
+	|milwaukee        		|
+	| ------------- | ------------- |
+	|get     9      | RT 1768	|
+	|play    10     | Dragon 547	|
+	|play    6      | voice 371	|
+	|run     6      | Spongebob 370	|
+	|fun     4      | Z.....but 370	|
+	| ------------- | ------------- |
+
 
 ## Versioning
 
