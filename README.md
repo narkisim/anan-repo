@@ -54,33 +54,30 @@ The project has three main components:
 	- Build the Java project 
 ```
 	./build.sh
-	or 
-		mvn clean install
 ```
 
 ## Running the project
 
 1. Hadoop word-count:
-	- Run the Python script collectTwits.py, and copy the output file to Google bucket 
+ - Run the Python script collectTwits.py, and copy the output file to Google bucket 
 ```
-	collectTwits.py -l nyc -t Trump
-	gsutil cp [file_name] gs://my-bucke
+	python collectTwits.py -l nyc -t Trump
 ```
-	- Run the Java project 
+ - Copy the file to the user bucket (gsutil cp [file_name] gs://my-bucke)
+
+- Run the Java project 
 ```
 	gsutil cp gs://my-bucke [in_file]
 	./run.sh
 ```
-	- Check the results
-		For all the cities:
+   - Check the results
+       For all the cities:
 ```
 	check.sh
 ```
-		For a single city:
+   For a single city:
 ```
 	scheck.sh
-```		
-		
 	Sample output:
 		Lookup results: nyc
 		get     9
@@ -88,34 +85,34 @@ The project has three main components:
 		play    6
 		&amp   6
 		really  5	
-	
+			
 ```
 2. Google Bigdata:
-	- Run the Python script collectTwits.py
+  - Run the Python script collectTwits.py
 ```
 	collectTwits.py -l nyc -t Trump
 ```
-	- Run the Bigdata instance. Set the script variables SRC_FILE="",and BUCKET_ID="" first!!!
+  - Run the Bigdata instance. Set the script variables SRC_FILE="",and BUCKET_ID="" first!!!
 ```
 	bigdata.sh
 ```
-	- Collect and prompt the data using the Python script: count_terms.py. 
+  - Collect and prompt the data using the Python script: count_terms.py. 
 	Set the local variables bucket_id, project_id, instance_id first!!!!
 ```
 	count_terms.py
 ```
+
 3. Tweeter streams:
-	- Copy the project files Dockerfile, requirements.txt, and twitStream.py to a new directory
-	- Build the docker
+  - Copy the project files Dockerfile, requirements.txt, and twitStream.py to a new directory
+   - Build the docker
 ```
 	docker build -t twit .
 ```
-	- Run the docker with two arguments: -l [location] -t [term]
+   - Run the docker with two arguments: -l [location] -t [term]
 ```
 	sudo docker run -t twit -l nyc -t Trump
 ```
-
-	- Aggregate the results:
+   - Aggregate the results:
 ```
 	python aggr.py
 	
