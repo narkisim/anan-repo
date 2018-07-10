@@ -191,7 +191,39 @@ Comparing MapReduce vs. MongoDB pipelining based on the knowledge we gained in t
 	1. The average number tweets per second filtered by city and term: 2 tweets per second.
 	2. MongoDB processing time for ~ 100000 words: ~10 seconds.     
 
+## Class exam
 
+### Requirements
+  1. Ignore locations
+  2. New term "WorldCup"
+  3. Prompt 7 words
+
+1. MapReduce updates:
+	1. Update the WordCount.java file local variable: 	
+		Original: private final String SEARCH_TOKEN = "Trump" ;
+		New code: private final String SEARCH_TOKEN =  "WorldCup";
+		
+	2. In the python file we removed the location from the filter:
+		twits = api.GetSearch(lang='en', count=COUNT, until=msg_days_before)
+	Note: we didn't collect the tweets again 
+	3. Update the check.sh: 
+		Original: /usr/local/hadoop/bin/hadoop fs -cat wordcount/output/$i/* | sort -n -k2 -r | head -n5
+		New code: /usr/local/hadoop/bin/hadoop fs -cat wordcount/output/$i/* | sort -n -k2 -r | head -n7
+ 1. MongoDb stream updates: 
+	1. The python stream collection file: remove the locations from the filter and run it once: 
+		Original: sapi.filter(track=term, languages=["en"], )
+		New code: sapi.filter(locations=[slng, slat, nlat, nlat], track=[term], languages=["en"])
+
+	2. Update the MongoDb aggregation python file, remove the match rule:
+		Original: tweets_list = twitsTable.aggregate(
+        [{"$match": {"city": city}}, {"$group": {"_id": "$word", "total": {"$sum": 1}}}, {"$sort": {"total": -1}}])
+		 
+		New code: tweets_list = twitsTable.aggregate(
+        [{"$group": {"_id": "$word", "total": {"$sum": 1}}}, {"$sort": {"total": -1}}])
+	
+The code is located in src/exam
+	
+ 
 ## Versioning
 
 Only master branch is supported. 
